@@ -5,9 +5,11 @@ export async function GET(request: NextRequest) {
   try {
     const q = request.nextUrl.searchParams.get('q');
     if (!q) return NextResponse.json({ quotes: [] });
+
     const result = await searchStocks(q);
     return NextResponse.json({ quotes: result.quotes ?? [] });
   } catch (error) {
+    console.error('Search API error', { error });
     return NextResponse.json({ error: '検索APIでエラーが発生しました', detail: String(error) }, { status: 500 });
   }
 }
