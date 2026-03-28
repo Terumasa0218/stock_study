@@ -13,7 +13,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "recharts": "2.12.7",
-    "yahoo-finance2": "^2.11.0"
+    "yahoo-finance2": "^2.4.7"
   },
   "devDependencies": {
     "@types/node": "20.16.5",
