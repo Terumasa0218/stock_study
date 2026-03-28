@@ -22,10 +22,10 @@ const normalizeRange = (range: string): HistoryPeriod => {
 export async function GET(request: NextRequest, { params }: { params: { code: string } }) {
   try {
     const range = normalizeRange(request.nextUrl.searchParams.get('range') ?? '6m');
-    const chart = await getHistory(params.code, range);
+    const history = await getHistory(params.code, range);
 
     return NextResponse.json({
-      data: (chart.quotes ?? []).map((item) => ({
+      data: history.map((item) => ({
         date: item.date?.toISOString().slice(0, 10) ?? '',
         open: item.open ?? 0,
         high: item.high ?? 0,

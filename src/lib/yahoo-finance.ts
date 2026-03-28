@@ -2,6 +2,16 @@ import yahooFinance from 'yahoo-finance2';
 
 export type HistoryPeriod = '1m' | '3m' | '6m' | '1y';
 
+export type HistoryPoint = {
+  date: Date;
+  open: number | null;
+  high: number | null;
+  low: number | null;
+  close: number | null;
+  volume: number | null;
+  adjClose: number | null;
+};
+
 export const formatCode = (code: string): string => {
   const normalized = code.trim().toUpperCase();
   if (/^\d{4}$/.test(normalized) && !normalized.endsWith('.T')) {
@@ -57,19 +67,19 @@ export const getQuote = async (code: string) => {
   }
 };
 
-export const getHistory = async (code: string, period: HistoryPeriod) => {
+export const getHistory = async (code: string, period: HistoryPeriod): Promise<HistoryPoint[]> => {
   const symbol = formatCode(code);
   const period1 = getPeriod1(period);
   const period2 = new Date();
 
   try {
-    return await yahooFinance.chart(symbol, {
+    return await yahooFinance.historical(symbol, {
       period1,
       period2,
       interval: '1d'
     });
   } catch (error) {
-    console.error('yahooFinance.chart failed', { code, symbol, period, error });
+    console.error('yahooFinance.historical failed', { code, symbol, period, error });
     throw error;
   }
 };
